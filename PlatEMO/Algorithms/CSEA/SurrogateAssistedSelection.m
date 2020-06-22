@@ -17,7 +17,7 @@ function Next = SurrogateAssistedSelection(net,p0,p1,Ref,Input,wmax,tr)
     a     = tr;
     b     = 1 - tr;
     i     = 0;
-    if p0<0.4 || (p1<a&&p0<b)
+    if p0<a || (p1<a&&p0<b)
         while i < wmax
             [~,index] = sort(Label,'descend');
             Input     = Next(index(1:length(Ref)),:);
@@ -27,7 +27,7 @@ function Next = SurrogateAssistedSelection(net,p0,p1,Ref,Input,wmax,tr)
         end
         Next = Next(Label>0.9,:);
     elseif p0>b && p1<a
-        Next = [];
+        Next = Next(randi(end),:);
     elseif p1 > b
         while i<wmax
             [~,index] = sort(Label);
