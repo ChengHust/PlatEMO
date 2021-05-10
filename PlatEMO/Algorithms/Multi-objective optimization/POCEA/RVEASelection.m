@@ -1,4 +1,4 @@
-function Population = RVEASelection(Population,V,popsize,theta)
+function Population = RVEASelection(Lower,Population,V,popsize,theta)
 % Uniformity optimization by RVEA
 
 % Copyright (c) 2020-2021 Cheng He
@@ -8,7 +8,7 @@ function Population = RVEASelection(Population,V,popsize,theta)
     NV     = size(V,1);
     
     %% Translate the population
-    PopObj = PopObj - repmat(min(PopObj,[],1),N,1);
+    PopObj = PopObj - repmat(Lower,N,1);
     
     %% Calculate the degree of violation of each solution
     CV = sum(max(0,Population.cons),2);
