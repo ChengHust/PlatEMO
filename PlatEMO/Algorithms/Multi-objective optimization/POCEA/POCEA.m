@@ -15,6 +15,7 @@ classdef POCEA < ALGORITHM
             %% Parameter settings
             k = Algorithm.ParameterSet(5);
             Population     = Problem.Initialization();
+            Lower 	   = min(Population.objs,[],1);
             [V0,Problem.N] = UniformPoint(Problem.N,Problem.M);
             [Vs0,L]        = UniformPoint(floor(Problem.N/k),Problem.M);
             [V,Vs]         = deal(V0,Vs0);
@@ -47,7 +48,8 @@ classdef POCEA < ALGORITHM
                     [winner,loser] = CHP(SubPop(rank(1)),SubPop(rank(2)),epsilon);
                     Offspring      = [Offspring,Operator(loser,winner)];
                 end 
-                Population = RVEASelection([Population,Offspring],V,Problem.N,(Problem.FE/Problem.maxFE)^2);
+                Lower = min([Lower;Offspring.objs],[],1);
+                Population = RVEASelection(Lower,[Population,Offspring],V,Problem.N,(Problem.FE/Problem.maxFE)^2);
                 if ~mod(ceil(Problem.FE/Problem.N),ceil(0.1*Problem.maxFE/Problem.N))
                     [V,Vs] = ReferenceVectorAdaptation(Population.objs,V0,Vs0);
                 end
